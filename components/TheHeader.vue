@@ -5,7 +5,11 @@
                 <NuxtLink :class="$style.title" to="/">
                     TestList
                 </NuxtLink>
-                <button :class="$style.button" aria-label="Корзина">
+                <button
+                    @click="updateCartState(true)"
+                    :class="$style.button"
+                    aria-label="Корзина"
+                >
                     <svg
                         fill="none"
                         width="24"
@@ -25,6 +29,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 import commonStyles from '@/assets/sass/common.sass?module'
 export default {
     name: 'TheHeader',
@@ -32,6 +37,12 @@ export default {
         return {
             commonStyles
         }
+    },
+    methods: {
+        // eslint-disable-next-line
+        ...mapActions ({
+            updateCartState: 'applicationState/UPDATE_CART_STATE'
+        })
     }
 }
 </script>
@@ -63,7 +74,6 @@ export default {
 .button
     display: block
     position: relative
-    padding: 0
     margin: 0
     box-shadow: none
     -webkit-appearance: none

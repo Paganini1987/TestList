@@ -1,5 +1,5 @@
 <template>
-    <article :class="$style.card">
+    <article :class="$style.item">
         <div :class="$style.image">
             <picture>
                 <source
@@ -11,22 +11,20 @@
                 />
             </picture>
         </div>
-        <card-rating :class="$style.rating" :value="4" />
-        <button :class="$style.button" aria-label="Добавить в корзину">
+        <h3 :class="$style.name">Рюкзак Louis Vuitton Discovery</h3>
+        <h4 :class="$style.price">150 000 ₽</h4>
+        <card-rating :class="$style.rating" :value="5" />
+        <button :class="$style.button">
             <svg
                 fill="none"
-                width="12"
-                height="13"
+                width="20"
+                height="22"
                 aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
             >
-                <use xlink:href="#cart-icon" />
+                <use xlink:href="#remove-icon" />
             </svg>
         </button>
-        <div :class="$style.footer">
-            <h3 :class="$style.name">Рюкзак Louis Vuitton Discovery</h3>
-            <h4 :class="$style.price">150 000 ₽</h4>
-        </div>
     </article>
 </template>
 
@@ -34,30 +32,34 @@
 import CardRating from './CardRating.vue'
 export default {
     components: { CardRating },
-    name: 'ProductCard'
+    name: 'CartItem'
 }
 </script>
 
 <style lang="sass" module>
 @import '@/assets/sass/variables.sass'
 
-.card
-    position: relative
-    background-color: $white
+.item
+    display: grid
+    grid-template-columns: 70px 1fr min-content
+    background: $white
     box-shadow: 0px 4px 16px rgba($black, 0.05)
     border-radius: 8px
     font-size: 14px
     line-height: 18px
-    padding-top: 18px
+    padding: 15px 22px
+    column-gap: 34px
 
 .image
     position: relative
-    &::before
+    width: 100%
+    grid-row: 1 / 4
+    grid-column: 1
+    &:before
         content: ''
         display: block
         padding-top: 60%
     img
-        display: block
         position: absolute
         top: 0
         left: 0
@@ -65,36 +67,37 @@ export default {
         height: 100%
         object-fit: contain
 
-.footer
-    padding: 0 16px 16px
-
 .name
     color: $grey
     margin-bottom: 6px
+    grid-row: 1
+    grid-column: 2
 
 .price
     font-weight: 700
-    white-space: nowrap
+    grid-row: 2
+    grid-column: 2
+    margin-bottom: 16px
 
 .rating
-    position: absolute
-    top: 20px
-    left: 20px
+    grid-row: 3
+    grid-column: 2
 
 .button
-    position: absolute
-    top: 0px
-    right: 0px
+    display: block
+    padding: 0
     margin: 0
     box-shadow: none
     -webkit-appearance: none
     border-radius: 0
     border: none
     cursor: pointer
-    padding: 18px
-    color: inherit
+    color: $grey-light
     background-color: transparent
+    grid-row: 1 / 4
+    grid-column: 3
+    align-self: center
     transition: 0.3s
     &:hover
-        color: $grey-light
+        color: $black
 </style>

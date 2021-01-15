@@ -4,6 +4,7 @@
         <div :class="commonStyles.container">
             <nuxt />
         </div>
+        <the-cart />
         <the-sprites />
     </div>
 </template>
@@ -11,8 +12,9 @@
 import TheHeader from '@/components/TheHeader'
 import TheSprites from '@/components/TheSprites'
 import commonStyles from '@/assets/sass/common.sass?module'
+import TheCart from '@/components/TheCart.vue'
 export default {
-    components: { TheHeader, TheSprites },
+    components: { TheHeader, TheSprites, TheCart },
     data () {
         return {
             commonStyles

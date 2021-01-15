@@ -32,7 +32,7 @@
 
 <script>
 export default {
-    name: 'ProductCardRating',
+    name: 'CardRating',
     props: {
         value: {
             type: Number,
