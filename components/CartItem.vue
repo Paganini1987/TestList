@@ -3,18 +3,18 @@
         <div :class="$style.image">
             <picture>
                 <source
-                    srcset="https://frontend-test.idaproject.com/upload/product/backpack0-6b2b.pa1mgx.jpg"
+                    :srcset="'https://frontend-test.idaproject.com' + product.photo"
                 />
                 <img
-                    src="https://frontend-test.idaproject.com/upload/product/backpack0-6b2b.pa1mgx.jpg"
-                    alt="Рюкзак Louis Vuitton Discovery"
+                    :src="'https://frontend-test.idaproject.com' + product.photo"
+                    :alt="product.name"
                 />
             </picture>
         </div>
-        <h3 :class="$style.name">Рюкзак Louis Vuitton Discovery</h3>
-        <h4 :class="$style.price">150 000 ₽</h4>
-        <card-rating :class="$style.rating" :value="5" />
-        <button :class="$style.button">
+        <h3 :class="$style.name">{{ product.name }}</h3>
+        <h4 :class="$style.price">{{ product.price | priceFormat }}</h4>
+        <card-rating :class="$style.rating" :value="product.rating" />
+        <button @click="removeFromCart" :class="$style.button">
             <svg
                 fill="none"
                 width="20"
@@ -30,9 +30,22 @@
 
 <script>
 import CardRating from './CardRating.vue'
+import priceFromat from '@/mixins/priceFormat'
 export default {
     components: { CardRating },
-    name: 'CartItem'
+    name: 'CartItem',
+    props: {
+        product: {
+            type: Object,
+            reqired: true
+        }
+    },
+    mixins: [priceFromat],
+    methods: {
+        removeFromCart() {
+            this.$store.dispatch('data/UPDATE_CART', { product: this.product, action: 'remove' })
+        }
+    }
 }
 </script>
 
@@ -41,6 +54,7 @@ export default {
 
 .item
     display: grid
+    width: 100%
     grid-template-columns: 70px 1fr min-content
     background: $white
     box-shadow: 0px 4px 16px rgba($black, 0.05)

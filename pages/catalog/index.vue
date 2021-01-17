@@ -6,7 +6,8 @@
 
 <script>
 export default {
-    name: 'Categories'
+    name: 'Categories',
+    middleware: 'redirect'
 }
 </script>
 

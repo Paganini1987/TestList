@@ -22,7 +22,7 @@ export default {
     /*
      ** Customize the progress-bar color
      */
-    loading: { color: '#fff' },
+    loading: { color: '#59606D' },
     /*
      ** Global CSS
      */
@@ -30,7 +30,9 @@ export default {
     /*
      ** Plugins to load before mounting the App
      */
-    plugins: [],
+    plugins: [
+        '@/plugins/lazyLoad.client.js'
+    ],
     /*
      ** Nuxt.js dev-modules
      */

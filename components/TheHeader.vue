@@ -20,7 +20,7 @@
                         <use xlink:href="#cart-icon" />
                     </svg>
                     <div :class="$style.icon">
-                        3
+                        {{ quantity }}
                     </div>
                 </button>
             </div>
@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 import commonStyles from '@/assets/sass/common.sass?module'
 export default {
     name: 'TheHeader',
@@ -37,6 +37,11 @@ export default {
         return {
             commonStyles
         }
+    },
+    computed: {
+        ...mapGetters({
+            quantity: 'data/GET_CART_PRODUCTS_QUANTITY'
+        })
     },
     methods: {
         // eslint-disable-next-line

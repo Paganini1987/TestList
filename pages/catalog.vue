@@ -13,7 +13,18 @@ import CatalogFilters from '@/components/CatalogFilters.vue'
 
 export default {
     name: 'Catalog',
-    components: { TheSidebar, CatalogFilters }
+    components: { TheSidebar, CatalogFilters },
+    async asyncData({ store, error }) {
+        try {
+            await store.dispatch('data/LOAD_CATEGORIES_LIST')
+        } catch (err) {
+            console.log(err)
+            return error({
+                statusCode: 404,
+                message: 'Сервер не доступен'
+            })
+        }
+    }
 }
 </script>
 <style lang="sass" module>
@@ -21,6 +32,8 @@ export default {
     display: flex
 
 .sidebar
+    flex-shrink: 0
+    max-width: 20%
     padding-top: 32px
     margin-right: 50px
 

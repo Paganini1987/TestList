@@ -3,16 +3,28 @@
         <div :class="$style.image">
             <picture>
                 <source
-                    srcset="https://frontend-test.idaproject.com/upload/product/backpack0-6b2b.pa1mgx.jpg"
+                    :srcset="
+                        'https://frontend-test.idaproject.com' + product.photo
+                    "
                 />
                 <img
-                    src="https://frontend-test.idaproject.com/upload/product/backpack0-6b2b.pa1mgx.jpg"
-                    alt="Рюкзак Louis Vuitton Discovery"
+                    :src="
+                        'https://frontend-test.idaproject.com' + product.photo
+                    "
+                    :alt="product.name"
                 />
             </picture>
         </div>
-        <card-rating :class="$style.rating" :value="4" />
-        <button :class="$style.button" aria-label="Добавить в корзину">
+        <card-rating
+            :class="$style.rating"
+            :value="product.rating"
+            :key="product.id"
+        />
+        <button
+            @click="addToCart"
+            :class="[$style.button, { [$style.inCart]: inCart }]"
+            aria-label="Добавить в корзину"
+        >
             <svg
                 fill="none"
                 width="12"
@@ -24,17 +36,42 @@
             </svg>
         </button>
         <div :class="$style.footer">
-            <h3 :class="$style.name">Рюкзак Louis Vuitton Discovery</h3>
-            <h4 :class="$style.price">150 000 ₽</h4>
+            <h3 :class="$style.name">{{ product.name }}</h3>
+            <h4 :class="$style.price">{{ product.price | priceFormat }}</h4>
         </div>
     </article>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import CardRating from './CardRating.vue'
+import priceFromat from '@/mixins/priceFormat'
 export default {
     components: { CardRating },
-    name: 'ProductCard'
+    name: 'ProductCard',
+    props: {
+        product: {
+            type: Object,
+            reqired: true
+        }
+    },
+    mixins: [priceFromat],
+    computed: {
+        ...mapGetters({
+            products: 'data/GET_CART_PRODUCTS'
+        }),
+        inCart() {
+            return this.products.some(p => +p.id === +this.product.id)
+        }
+    },
+    methods: {
+        addToCart() {
+            this.$store.dispatch('data/UPDATE_CART', {
+                product: this.product,
+                action: 'add'
+            })
+        }
+    }
 }
 </script>
 
@@ -43,15 +80,19 @@ export default {
 
 .card
     position: relative
+    display: flex
+    flex-direction: column
     background-color: $white
     box-shadow: 0px 4px 16px rgba($black, 0.05)
     border-radius: 8px
     font-size: 14px
     line-height: 18px
     padding-top: 18px
+    height: 100%
 
 .image
     position: relative
+    margin-bottom: 16px
     &::before
         content: ''
         display: block
@@ -66,9 +107,14 @@ export default {
         object-fit: contain
 
 .footer
+    flex-grow: 1
+    display: flex
+    flex-direction: column
+    justify-content: flex-end
     padding: 0 16px 16px
 
 .name
+    flex-grow: 1
     color: $grey
     margin-bottom: 6px
 
@@ -92,9 +138,13 @@ export default {
     border: none
     cursor: pointer
     padding: 18px
-    color: inherit
+    color: $grey-light
     background-color: transparent
     transition: 0.3s
     &:hover
-        color: $grey-light
+        color: $black
+
+.inCart
+    color: $black
+    cursor: default
 </style>

@@ -1,10 +1,12 @@
 <template>
-    <div>
+    <div :class="$style.layout">
         <the-header />
-        <div :class="commonStyles.container">
+        <div :class="[commonStyles.container, $style.content]">
             <nuxt />
         </div>
-        <the-cart />
+        <client-only>
+            <the-cart />
+        </client-only>
         <the-sprites />
     </div>
 </template>
@@ -22,3 +24,15 @@ export default {
     }
 }
 </script>
+
+<style lang="sass" module>
+.layout
+    display: flex
+    flex-direction: column
+    min-height: 100vh
+
+.content
+    display: flex
+    flex-direction: column
+    flex-grow: 1
+</style>
