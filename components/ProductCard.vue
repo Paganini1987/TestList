@@ -97,11 +97,12 @@ export default {
 
 .image
     position: relative
+    margin-top: 16px
     margin-bottom: 16px
     &::before
         content: ''
         display: block
-        padding-top: 75%
+        padding-top: 65%
     img
         display: block
         position: absolute

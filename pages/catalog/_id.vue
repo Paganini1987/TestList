@@ -4,10 +4,10 @@
             <li
                 v-for="product in sortedProducts"
                 :key="product.id"
-                :class="$style.item"
                 v-position
+                :class="$style.item"
             >
-                <product-card :product="product" :key="product.id" />
+                <product-card :key="product.id" :product="product" />
             </li>
         </transition-group>
     </div>
@@ -54,7 +54,9 @@ export default {
             sortBy: 'data/GET_SORT_BY'
         }),
         sortedProducts() {
-            return [...this.products].sort((a, b) => a[this.sortBy] - b[this.sortBy])
+            return [...this.products].sort(
+                (a, b) => a[this.sortBy] - b[this.sortBy]
+            )
         }
     }
 }
@@ -71,6 +73,17 @@ export default {
 .item
     width: calc(25% - 16px)
     margin: 8px
+
+@media (max-width: 1023px)
+    .item
+        width: calc(33% - 16px)
+        margin: 8px
+
+@media (max-width: 767px)
+    .item
+        width: calc(50% - 16px)
+        margin: 8px
+
 </style>
 <style lang="sass">
 .list

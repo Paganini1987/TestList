@@ -77,9 +77,10 @@
                             name="name"
                             placeholder="Ваше имя"
                             @blur="focusLost('name')"
-                        />
+                        >
                         <input
                             v-model="formData.tel"
+                            v-mask="'+7(999)-999-99-99'"
                             :class="[
                                 $style.input,
                                 { [$style.invalid]: !validation.tel }
@@ -88,8 +89,7 @@
                             name="tel"
                             placeholder="Телефон"
                             @blur="focusLost('tel')"
-                            v-mask="'+7(999)-999-99-99'"
-                        />
+                        >
                         <input
                             v-model="formData.address"
                             :class="[
@@ -100,7 +100,7 @@
                             name="address"
                             placeholder="Адрес"
                             @blur="focusLost('address')"
-                        />
+                        >
                         <button
                             :class="$style.button"
                             type="submit"
@@ -118,7 +118,7 @@
                         @click="showSuccess = false"
                     >
                         <div>
-                            <img src="/ok-hand.png" />
+                            <img src="/ok-hand.png">
                             <h3>Заявка успешно отправлена</h3>
                             <p>Вскоре наш менеджер свяжется с Вами</p>
                         </div>
@@ -167,12 +167,13 @@ export default {
             quantity: 'data/GET_CART_PRODUCTS_QUANTITY'
         }),
         validation() {
+            const tel = /^\+7\(\d{3}\)-\d{3}-\d{2}-\d{2}$/
             return {
                 name:
                     this.formData.name !== '' ||
                     (!this.blur.name && !this.process),
                 tel:
-                    this.formData.tel !== '' ||
+                    tel.test(this.formData.tel) ||
                     (!this.blur.tel && !this.process),
                 address:
                     this.formData.address !== '' ||
