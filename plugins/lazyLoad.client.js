@@ -1,6 +1,6 @@
-// import LazyLoad from 'vanilla-lazyload'
+import Vue from 'vue'
+import VueLazyload from 'vue-lazyload'
 
-export default () => {
-    // new LazyLoad()
-    // TODO LazyLoad
-}
+Vue.use(VueLazyload, {
+    preLoad: 1
+})

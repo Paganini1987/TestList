@@ -14,7 +14,7 @@ module.exports = {
         'vue/html-indent': ['error', 4],
         indent: ['error', 4],
         'vue/comment-directive': 0,
-        'space-before-function-paren': false,
-        'arrow-parens': false
+        'space-before-function-paren': 0,
+        'arrow-parens': 0
     },
 }

@@ -1,6 +1,6 @@
 <template>
-    <div :class="$style.wrapper" ref="wrapper">
-        <button @click="active = !active" :class="$style.button">
+    <div ref="wrapper" :class="$style.wrapper">
+        <button :class="$style.button" @click="active = !active">
             <h3>Сортировать по:</h3>
             <span>{{ currentSort }}</span>
             <svg
@@ -22,7 +22,7 @@
                             type="radio"
                             name="sort"
                             :value="option.value"
-                        />
+                        >
                         <span>{{ option.name }}</span>
                     </label>
                 </li>
@@ -64,10 +64,10 @@ export default {
             }
         }
     },
-    methods: {
-        ...mapActions({
-            updateSortBy: 'data/UPDATE_SORT_BY'
-        })
+    watch: {
+        sort() {
+            this.active = false
+        }
     },
     mounted() {
         document.addEventListener('keyup', evt => {
@@ -81,10 +81,10 @@ export default {
             }
         })
     },
-    watch: {
-        sort() {
-            this.active = false
-        }
+    methods: {
+        ...mapActions({
+            updateSortBy: 'data/UPDATE_SORT_BY'
+        })
     }
 }
 </script>

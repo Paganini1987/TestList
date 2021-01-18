@@ -2,11 +2,11 @@
     <div>
         <transition name="overlay">
             <div
-                @click.self="updateCartState(false)"
                 v-show="opened"
                 :class="$style.overlay"
                 tabindex="0"
-            ></div>
+                @click.self="updateCartState(false)"
+            />
         </transition>
         <transition name="cart">
             <div
@@ -15,10 +15,12 @@
                 data-simplebar
             >
                 <div :class="$style.top">
-                    <h2 :class="$style.title">Корзина</h2>
+                    <h2 :class="$style.title">
+                        Корзина
+                    </h2>
                     <button
-                        @click="updateCartState(false)"
                         :class="$style.close"
+                        @click="updateCartState(false)"
                     >
                         <svg
                             fill="none"
@@ -32,20 +34,22 @@
                     </button>
                 </div>
 
-                <template v-if="quantity === 0">
+                <div v-if="quantity === 0">
                     <p>
                         Пока что вы&nbsp;ничего не&nbsp;добавили в&nbsp;корзину.
                     </p>
                     <button
-                        @click="updateCartState(false)"
                         :class="$style.button"
+                        @click="updateCartState(false)"
                     >
                         Перейти к выбору
                     </button>
-                </template>
+                </div>
 
-                <template v-else>
-                    <h3 :class="$style.subtitle">Товары в корзине</h3>
+                <div v-else>
+                    <h3 :class="$style.subtitle">
+                        Товары в корзине
+                    </h3>
                     <transition-group
                         name="cartList"
                         tag="ul"
@@ -56,14 +60,15 @@
                             :key="product.id"
                             :class="$style.item"
                         >
-                            <cart-item :product="product" :key="product.id" />
+                            <cart-item :key="product.id" :product="product" />
                         </li>
                     </transition-group>
-                    <h3 :class="$style.subtitle">Оформить заказ</h3>
-                    <form @submit.prevent="submit" :class="$style.form">
+                    <h3 :class="$style.subtitle">
+                        Оформить заказ
+                    </h3>
+                    <form :class="$style.form" @submit.prevent="submit">
                         <input
                             v-model="formData.name"
-                            @blur="focusLost('name')"
                             :class="[
                                 $style.input,
                                 { [$style.invalid]: !validation.name }
@@ -71,10 +76,10 @@
                             type="text"
                             name="name"
                             placeholder="Ваше имя"
+                            @blur="focusLost('name')"
                         />
                         <input
                             v-model="formData.tel"
-                            @blur="focusLost('tel')"
                             :class="[
                                 $style.input,
                                 { [$style.invalid]: !validation.tel }
@@ -82,10 +87,11 @@
                             type="tel"
                             name="tel"
                             placeholder="Телефон"
+                            @blur="focusLost('tel')"
+                            v-mask="'+7(999)-999-99-99'"
                         />
                         <input
                             v-model="formData.address"
-                            @blur="focusLost('address')"
                             :class="[
                                 $style.input,
                                 { [$style.invalid]: !validation.address }
@@ -93,6 +99,7 @@
                             type="text"
                             name="address"
                             placeholder="Адрес"
+                            @blur="focusLost('address')"
                         />
                         <button
                             :class="$style.button"
@@ -102,13 +109,13 @@
                             {{ sending ? 'Отправка' : 'Отправить' }}
                         </button>
                     </form>
-                </template>
+                </div>
 
                 <transition name="success">
                     <div
                         v-if="showSuccess"
-                        @click="showSuccess = false"
                         :class="$style.success"
+                        @click="showSuccess = false"
                     >
                         <div>
                             <img src="/ok-hand.png" />
@@ -129,8 +136,8 @@ import 'simplebar'
 import '../node_modules/simplebar/dist/simplebar.css'
 
 export default {
-    components: { CartItem },
     name: 'TheCart',
+    components: { CartItem },
     data() {
         return {
             blur: {
@@ -151,13 +158,6 @@ export default {
             process: false,
             sending: false,
             showSuccess: false
-        }
-    },
-    directives: {
-        mask: {
-            bind(el, binding) {
-                el.value = '+7 ___ ___-__-__'
-            }
         }
     },
     computed: {
@@ -185,6 +185,16 @@ export default {
             })
         }
     },
+    created() {
+        this.$store.dispatch('data/LOAD_LOCAL_CART')
+    },
+    mounted() {
+        document.addEventListener('keyup', evt => {
+            if (evt.keyCode === 27) {
+                this.updateCartState(false)
+            }
+        })
+    },
     methods: {
         // eslint-disable-next-line
         ...mapActions({
@@ -197,6 +207,7 @@ export default {
                 // Симуляция отправки формы
                 this.sending = true
                 setTimeout(() => {
+                    console.log(this.formData, this.products)
                     this.showSuccess = true
                     this.process = false
                     this.sending = false
@@ -218,16 +229,6 @@ export default {
             })
             this.$store.dispatch('data/UPDATE_CART', { action: 'reset' })
         }
-    },
-    created() {
-        this.$store.dispatch('data/LOAD_LOCAL_CART')
-    },
-    mounted() {
-        document.addEventListener('keyup', evt => {
-            if (evt.keyCode === 27) {
-                this.updateCartState(false)
-            }
-        })
     }
 }
 </script>

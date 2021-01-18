@@ -6,24 +6,24 @@
                     :srcset="
                         'https://frontend-test.idaproject.com' + product.photo
                     "
-                />
+                >
                 <img
-                    :src="
+                    v-lazy="
                         'https://frontend-test.idaproject.com' + product.photo
                     "
                     :alt="product.name"
-                />
+                >
             </picture>
         </div>
         <card-rating
+            :key="product.id"
             :class="$style.rating"
             :value="product.rating"
-            :key="product.id"
         />
         <button
-            @click="addToCart"
             :class="[$style.button, { [$style.inCart]: inCart }]"
             aria-label="Добавить в корзину"
+            @click="addToCart"
         >
             <svg
                 fill="none"
@@ -36,8 +36,12 @@
             </svg>
         </button>
         <div :class="$style.footer">
-            <h3 :class="$style.name">{{ product.name }}</h3>
-            <h4 :class="$style.price">{{ product.price | priceFormat }}</h4>
+            <h3 :class="$style.name">
+                {{ product.name }}
+            </h3>
+            <h4 :class="$style.price">
+                {{ product.price | priceFormat }}
+            </h4>
         </div>
     </article>
 </template>
@@ -47,15 +51,16 @@ import { mapGetters } from 'vuex'
 import CardRating from './CardRating.vue'
 import priceFromat from '@/mixins/priceFormat'
 export default {
-    components: { CardRating },
     name: 'ProductCard',
+    components: { CardRating },
+    mixins: [priceFromat],
     props: {
         product: {
             type: Object,
-            reqired: true
+            reqired: true,
+            default: () => {}
         }
     },
-    mixins: [priceFromat],
     computed: {
         ...mapGetters({
             products: 'data/GET_CART_PRODUCTS'
@@ -96,7 +101,7 @@ export default {
     &::before
         content: ''
         display: block
-        padding-top: 60%
+        padding-top: 75%
     img
         display: block
         position: absolute

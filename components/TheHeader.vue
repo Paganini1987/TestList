@@ -6,9 +6,9 @@
                     TestList
                 </NuxtLink>
                 <button
-                    @click="updateCartState(true)"
                     :class="$style.button"
                     aria-label="Корзина"
+                    @click="updateCartState(true)"
                 >
                     <svg
                         fill="none"

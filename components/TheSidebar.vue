@@ -14,7 +14,9 @@
                         :class="$style.link"
                         :active-class="$style.active"
                         :to="'/catalog/' + category.id"
-                    >{{ category.name }}</NuxtLink>
+                    >
+                        {{ category.name }}
+                    </NuxtLink>
                 </li>
             </ul>
         </nav>

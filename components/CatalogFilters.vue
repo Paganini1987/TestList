@@ -9,8 +9,8 @@
 <script>
 import CatalogFiltersSort from './CatalogFiltersSort.vue'
 export default {
-    components: { CatalogFiltersSort },
-    name: 'CatalogFilters'
+    name: 'CatalogFilters',
+    components: { CatalogFiltersSort }
 }
 </script>
 

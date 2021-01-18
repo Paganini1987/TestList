@@ -1,7 +1,9 @@
 <template>
     <section :class="$style.section">
         <h1>Страница не найдена</h1>
-        <NuxtLink to="/">На главную</NuxtLink>
+        <NuxtLink to="/">
+            На главную
+        </NuxtLink>
     </section>
 </template>
 

@@ -4,17 +4,21 @@
             <picture>
                 <source
                     :srcset="'https://frontend-test.idaproject.com' + product.photo"
-                />
+                >
                 <img
                     :src="'https://frontend-test.idaproject.com' + product.photo"
                     :alt="product.name"
-                />
+                >
             </picture>
         </div>
-        <h3 :class="$style.name">{{ product.name }}</h3>
-        <h4 :class="$style.price">{{ product.price | priceFormat }}</h4>
+        <h3 :class="$style.name">
+            {{ product.name }}
+        </h3>
+        <h4 :class="$style.price">
+            {{ product.price | priceFormat }}
+        </h4>
         <card-rating :class="$style.rating" :value="product.rating" />
-        <button @click="removeFromCart" :class="$style.button">
+        <button :class="$style.button" @click="removeFromCart">
             <svg
                 fill="none"
                 width="20"
@@ -32,15 +36,16 @@
 import CardRating from './CardRating.vue'
 import priceFromat from '@/mixins/priceFormat'
 export default {
-    components: { CardRating },
     name: 'CartItem',
+    components: { CardRating },
+    mixins: [priceFromat],
     props: {
         product: {
             type: Object,
-            reqired: true
+            reqired: true,
+            default: () => {}
         }
     },
-    mixins: [priceFromat],
     methods: {
         removeFromCart() {
             this.$store.dispatch('data/UPDATE_CART', { product: this.product, action: 'remove' })

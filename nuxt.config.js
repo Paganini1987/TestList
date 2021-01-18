@@ -31,7 +31,8 @@ export default {
      ** Plugins to load before mounting the App
      */
     plugins: [
-        '@/plugins/lazyLoad.client.js'
+        '@/plugins/lazyLoad.client.js',
+        '@/plugins/inputmask.client.js'
     ],
     /*
      ** Nuxt.js dev-modules
